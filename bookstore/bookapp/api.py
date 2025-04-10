@@ -18,60 +18,73 @@ class BookModelSerializer(serializers.ModelSerializer):
 
 
 
-@api_view(['GET'])
-def booklistapi(request):
-    #Fetch from database and we send response
-    books =bookmodel.objects.all()
-    serializers=BookModelSerializer(books,many=True)
+# @api_view(['GET'])
+# def booklistapi(request):
+#     #Fetch from database and we send response
+#     books =bookmodel.objects.all()
+#     serializers=BookModelSerializer(books,many=True)
     
 
-    # books =[{
-    #     'id':books.id,
-    #     'name':books.name,
-    #     'author':books.author,
-    #     'price':books.price
-    # } for books in books]
+#     # books =[{
+#     #     'id':books.id,
+#     #     'name':books.name,
+#     #     'author':books.author,
+#     #     'price':books.price
+#     # } for books in books]
 
-    return Response(serializers.data)
+#     return Response(serializers.data)
 
-@api_view(['POST'])
-def bookcreateapi(request):
+# @api_view(['POST'])
+# def bookcreateapi(request):
     
-    data=request.data
-    serializers=BookModelSerializer(data=data)
+#     data=request.data
+#     serializers=BookModelSerializer(data=data)
     
-    if serializers.is_valid():
-        serializers.save()
-    # name = data.get('name')
-    # author = data.get('author')
-    # price = data.get('price')
+#     if serializers.is_valid():
+#         serializers.save()
+#     # name = data.get('name')
+#     # author = data.get('author')
+#     # price = data.get('price')
 
-    # bookmodel(name=name, author=author, price=price).save()
-        return Response({
-            "message":"Book created successfully"
-        })
-    return Response(serializers.errors)
+#     # bookmodel(name=name, author=author, price=price).save()
+#         return Response({
+#             "message":"Book created successfully"
+#         })
+#     return Response(serializers.errors)
 
-@api_view(['PUT'])
-def bookupdateapi(request, id):
-    data=request.data
+# @api_view(['PUT'])
+# def bookupdateapi(request, id):
+#     data=request.data
 
-    book=bookmodel.objects.get(id=id)
-    book.name=data['name']
-    book.author=data['author']
-    book.price=data['price']
+#     book=bookmodel.objects.get(id=id)
+#     serializers=BookModelSerializer(instance=book,data=data)
+#     # book.name=data['name']
+#     # book.author=data['author']
+#     # book.price=data['price']
 
-    book.save()
-    return Response({
-        "message":"Book updated successfully"
-    })
+#     # book.save()
+#     if serializers.is_valid():
+#         serializers.save()
+        
+#         return Response({
+#         "message":"Book updated successfully"
+#         })
+#     return Response(serializers.errors)
 
-@api_view(['DELETE'])
-def bookdeleteapi(request, id):
-    data=request.data
+# @api_view(['DELETE'])
+# def bookdeleteapi(request, id):
+#     data=request.data
+#     book=bookmodel.objects.get(id=id)
+#     book.delete()
+#     return Response({
+#         "message":"Book deleted successfully"
+#     })
 
-    book=bookmodel.objects.get(id=id)
-    book.delete()
-    return Response({
-        "message":"Book deleted successfully"
-    })
+
+from rest_framework.viewsets import ModelViewSet
+
+class BookViewSet(ModelViewSet):
+    queryset =bookmodel.objects.all()
+    serializer_class=BookModelSerializer
+    
+    
